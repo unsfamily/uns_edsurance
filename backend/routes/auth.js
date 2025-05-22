@@ -16,28 +16,99 @@ const createToken = (user) => {
 
 // 📝 Register
 router.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!email || !password || !name)
-    return res.status(400).json({ msg: "All fields required" });
+  console.log("Registering institution:", req.body);
+  const {
+    institution_name,
+    school_address,
+    affiliation_board,
+    correspondent_name,
+    principal_name,
+    principal_contact,
+    principal_email,
+    branches,
+    school_email,
+    school_website,
+    school_mobile,
+    school_landline,
+    student_strength,
+    teaching_staff_count,
+    representatives,
+    declaration,
+    password,
+  } = req.body;
 
-  db.query(
-    "SELECT * FROM users WHERE email = ?",
-    [email],
-    async (err, result) => {
-      if (result.length > 0)
-        return res.status(400).json({ msg: "Email already exists" });
+  // Validate required fields
+  if (
+    !institution_name ||
+    !school_address ||
+    !affiliation_board ||
+    !correspondent_name ||
+    !principal_name ||
+    !principal_contact ||
+    !principal_email ||
+    !school_email ||
+    !school_mobile ||
+    !student_strength ||
+    !teaching_staff_count ||
+    !declaration ||
+    !password
+  ) {
+    return res
+      .status(400)
+      .json({ msg: "Please fill all required fields including password." });
+  }
 
-      const hashed = await bcrypt.hash(password, 10);
-      db.query(
-        "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-        [name, email, hashed],
-        (err2) => {
-          if (err2) return res.status(500).json({ msg: "Database error" });
-          res.json({ msg: "Registered successfully" });
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const sql = `
+      INSERT INTO institutions (
+        institution_name, school_address, affiliation_board,
+        correspondent_name, principal_name, principal_contact, principal_email,
+        branches, school_email, school_website,
+        school_mobile, school_landline,
+        student_strength, teaching_staff_count, representatives,
+        declaration, password
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      institution_name,
+      school_address,
+      affiliation_board,
+      correspondent_name,
+      principal_name,
+      principal_contact,
+      principal_email,
+      branches,
+      school_email,
+      school_website,
+      school_mobile,
+      school_landline,
+      student_strength,
+      teaching_staff_count,
+      representatives,
+      declaration ? 1 : 0,
+      hashedPassword,
+    ];
+
+    db.query(sql, values, (err) => {
+      if (err) {
+        if (err.code === "ER_DUP_ENTRY") {
+          return res
+            .status(409)
+            .json({ msg: "Email already exists. Please use a different one." });
         }
-      );
-    }
-  );
+        return res.status(500).json({ msg: "Database error", err });
+      }
+
+      res.json({
+        msg: "Institution registered successfully. You can now log in.",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error });
+  }
 });
 
 // 🔐 Login
@@ -61,13 +132,7 @@ router.post("/login", (req, res) => {
         return res.status(401).json({ msg: "Invalid password." });
       }
 
-      const token = jwt.sign(
-        { id: user.id, email: user.principal_email },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "2h",
-        }
-      );
+      const token = createToken(user);
 
       res.json({
         msg: "Login successful",
@@ -139,7 +204,6 @@ router.post("/reset-password/:token", async (req, res) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const email = decoded.email;
-
     const hashed = await bcrypt.hash(password, 10);
 
     db.query(

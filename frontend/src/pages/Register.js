@@ -19,13 +19,20 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Form submitted:", form);
     e.preventDefault();
     setMsg("");
     setError("");
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
-        form
+        `${process.env.REACT_APP_API_DOMAIN ?? ""}/api/auth/register`,
+        { form },
+        {
+          withCredentials: true, // only if using cookies/sessions
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       setMsg(res.data.msg);
     } catch (err) {
