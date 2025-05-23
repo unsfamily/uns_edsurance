@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     userid: "",
     password: "",
@@ -67,12 +69,11 @@ const Login = () => {
           password: formData.password
         });
         
-        // Store token in localStorage
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        // Use the auth context to login
+        login(response.data.user, response.data.token);
         
-        // Redirect to dashboard or home page
-        navigate('/dashboard');
+        // Redirect to home page
+        navigate('/');
       } catch (error) {
         setApiError(error.response?.data?.msg || "Login failed. Please try again.");
       } finally {

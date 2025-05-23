@@ -3,8 +3,29 @@ import "../assets/scss/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleClickHere = (resource) => {
+    if (isAuthenticated) {
+      // If user is logged in, navigate to the corresponding resource
+      switch(resource) {
+        case 'ebook':
+          navigate('/ebook');
+          break;
+        default:
+          navigate('/ebook');
+      }
+    } else {
+      // If user is not logged in, navigate to subscription page
+      navigate('/subscription');
+    }
+  };
+
   return (
     <>
       <Header />
@@ -56,7 +77,7 @@ const Home = () => {
                   <p>
                     Edsurance offers access to a vast digital library with lakhs
                     of eBooks, covering diverse subjects and academic levels.{" "}
-                    <a href="#">Click Here</a>
+                    <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('ebook')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -69,7 +90,7 @@ const Home = () => {
                   <p>
                     Edsurance will create a personalized website for each
                     school, showcasing their achievements and offerings at no
-                    cost. <a href="#">Click Here</a>
+                    cost. <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('website')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -82,7 +103,7 @@ const Home = () => {
                   <p className="m-0">
                     Scientist-led classes, webinars, and research-based learning
                     to enhance education and innovation.{" "}
-                    <a href="#">Click Here</a>
+                    <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('training')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -94,7 +115,7 @@ const Home = () => {
                   <h4>Offline Training</h4>
                   <p className="m-0">
                     Offline workshops every 3 months for professional
-                    development. <a href="#">Click Here</a>
+                    development. <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('offline')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -106,7 +127,7 @@ const Home = () => {
                   <h4>Networking</h4>
                   <p className="m-0">
                     School meetups for collaboration and knowledge sharing with
-                    scientists. <a href="#">Click Here</a>
+                    scientists. <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('networking')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -118,7 +139,7 @@ const Home = () => {
                   <h4>Chatbot</h4>
                   <p className="m-0">
                     AI-powered chatbot for students to clear doubts anytime.{" "}
-                    <a href="#">Click Here</a>
+                    <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('chatbot')}}>Click Here</a>
                   </p>
                 </div>
               </div>
@@ -166,7 +187,7 @@ const Home = () => {
               <p>
                 This session encourages students to think like scientists and
                 understand how STEM can lead to exciting careers—even at NASA.{" "}
-                <a href="#">Click Here</a>
+                <a href="#" onClick={(e) => {e.preventDefault(); handleClickHere('nasa')}}>Click Here</a>
               </p>
             </div>
           </div>
@@ -207,7 +228,10 @@ const Home = () => {
             ))}
           </div>
           <div className="text-center">
-            <button className="btn btn-primary mt-5 text-center">
+            <button 
+              className="btn btn-primary mt-5 text-center"
+              onClick={() => handleClickHere('assessment')}
+            >
               Click Here
             </button>
           </div>

@@ -1,8 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import edsuranceLogo from "../assets/images/edsurance.png";
+import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
+  const { isAuthenticated, currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="container-fluid p-0">
       <nav className="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
@@ -54,18 +63,33 @@ const Header = () => {
               Contact
             </Link>
           </div>
-          <Link
-            to="/login"
-            className="btn btn-primary mr-2 py-2 px-4 d-none d-lg-block"
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="btn btn-primary py-2 px-4 d-none d-lg-block"
-          >
-            Join Us
-          </Link>
+          
+          {isAuthenticated ? (
+            <div className="d-none d-lg-flex align-items-center">
+              <span className="mr-3">Welcome, {currentUser?.name || 'User'}</span>
+              <button 
+                onClick={handleLogout}
+                className="btn btn-secondary py-2 px-4"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="btn btn-primary mr-2 py-2 px-4 d-none d-lg-block"
+              >
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="btn btn-primary py-2 px-4 d-none d-lg-block"
+              >
+                Join Us
+              </Link>
+            </>
+          )}
         </div>
       </nav>
     </div>
