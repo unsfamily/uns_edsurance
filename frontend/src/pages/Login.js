@@ -17,7 +17,7 @@ const Login = () => {
     userid: "",
     password: "",
   });
-  
+
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -62,20 +62,25 @@ const Login = () => {
     if (formIsValid) {
       setIsLoading(true);
       setApiError("");
-      
+
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", {
-          email: formData.userid,
-          password: formData.password
-        });
-        
+        const response = await axios.post(
+          "http://localhost:5002/api/auth/login",
+          {
+            email: formData.userid,
+            password: formData.password,
+          }
+        );
+
         // Use the auth context to login
         login(response.data.user, response.data.token);
-        
+
         // Redirect to home page
-        navigate('/');
+        navigate("/");
       } catch (error) {
-        setApiError(error.response?.data?.msg || "Login failed. Please try again.");
+        setApiError(
+          error.response?.data?.msg || "Login failed. Please try again."
+        );
       } finally {
         setIsLoading(false);
       }
@@ -137,8 +142,8 @@ const Login = () => {
                 </div>
               </div>
               <div className="text-center mt-4">
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="btn btn-primary"
                   disabled={isLoading}
                 >
