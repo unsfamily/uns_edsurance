@@ -9,7 +9,7 @@ const app = express();
 // Simple CORS configuration - no credentials
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://edsurance.in",
   })
 );
 

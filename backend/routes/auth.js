@@ -156,7 +156,7 @@ router.post("/forgot-password", (req, res) => {
   const token = jwt.sign({ email }, process.env.JWT_SECRET, {
     expiresIn: "15m",
   });
-  const resetLink = `http://localhost:3000/reset-password/${token}`;
+  const resetLink = `http://edsurance.in/reset-password/${token}`;
 
   db.query(
     "UPDATE institutions SET reset_token = ?, reset_expires = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE principal_email = ? OR school_email = ?",

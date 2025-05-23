@@ -65,7 +65,7 @@ const Login = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5002/api/auth/login",
+          "http://18.207.188.98:5000/api/auth/login",
           {
             email: formData.userid,
             password: formData.password,
