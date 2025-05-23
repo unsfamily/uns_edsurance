@@ -6,12 +6,10 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
-// CORS setup
+// Simple CORS configuration - no credentials
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
@@ -25,8 +23,10 @@ app.get("/", (req, res) => {
   res.send("Backend server is running!");
 });
 
-// ❌ REMOVE this duplicate route:
-// app.post("/api/auth/register", ...)
+// Add a test route directly in server.js to check if server responds at all
+app.post("/test-endpoint", (req, res) => {
+  res.json({ msg: "Test endpoint working!" });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

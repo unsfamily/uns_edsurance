@@ -24,18 +24,14 @@ function Register() {
     setMsg("");
     setError("");
     try {
+      // Remove withCredentials to simplify the request
       const res = await axios.post(
-        `${process.env.REACT_APP_API_DOMAIN ?? ""}/api/auth/register`,
-        { form },
-        {
-          withCredentials: true, // only if using cookies/sessions
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        "http://localhost:5000/api/auth/register",
+        form
       );
       setMsg(res.data.msg);
     } catch (err) {
+      console.error("Registration error:", err);
       setError(err.response?.data?.msg || "Submission failed");
     }
   };
