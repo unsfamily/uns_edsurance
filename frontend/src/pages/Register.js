@@ -19,16 +19,19 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Form submitted:", form);
     e.preventDefault();
     setMsg("");
     setError("");
     try {
+      // Remove withCredentials to simplify the request
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "http://localhost:5002/api/auth/register",
         form
       );
       setMsg(res.data.msg);
     } catch (err) {
+      console.error("Registration error:", err);
       setError(err.response?.data?.msg || "Submission failed");
     }
   };

@@ -1,10 +1,93 @@
 import React from "react";
 import "../assets/scss/style.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleClickHere = (resource) => {
+    if (isAuthenticated) {
+      // If user is logged in, navigate to the corresponding resource
+      switch (resource) {
+        case "ebook":
+          navigate("/ebook");
+          break;
+        case "online":
+          navigate("/online-training");
+          break;
+        case "offline":
+          navigate("/offline-training");
+          break;
+        case "websites":
+          navigate("/free-websites");
+          break;
+        case "chatbot":
+          navigate("/chatbot");
+          break;
+        case "networking":
+          navigate("/networking");
+          break;
+
+        default:
+          navigate("/ebook");
+      }
+    } else {
+      // If user is not logged in, navigate to subscription page
+      navigate("/subscription");
+    }
+  };
+
+  const SampleNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div
+        className="slick-arrow"
+        onClick={onClick}
+        style={{
+          position: "absolute",
+          right: "-25px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          zIndex: 1,
+          cursor: "pointer",
+          fontSize: "24px",
+          color: "#007bff",
+        }}
+      >
+        <i className="fa fa-chevron-right"></i>
+      </div>
+    );
+  };
+
+  const SamplePrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+      <div
+        className="slick-arrow"
+        onClick={onClick}
+        style={{
+          position: "absolute",
+          left: "-25px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          zIndex: 1,
+          cursor: "pointer",
+          fontSize: "24px",
+          color: "#007bff",
+        }}
+      >
+        <i className="fa fa-chevron-left"></i>
+      </div>
+    );
+  };
+
   return (
     <>
       <Header />
@@ -56,7 +139,15 @@ const Home = () => {
                   <p>
                     Edsurance offers access to a vast digital library with lakhs
                     of eBooks, covering diverse subjects and academic levels.{" "}
-                    <a href="#">Click Here</a>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("ebook");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -69,7 +160,16 @@ const Home = () => {
                   <p>
                     Edsurance will create a personalized website for each
                     school, showcasing their achievements and offerings at no
-                    cost. <a href="#">Click Here</a>
+                    cost.{" "}
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("websites");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -82,7 +182,15 @@ const Home = () => {
                   <p className="m-0">
                     Scientist-led classes, webinars, and research-based learning
                     to enhance education and innovation.{" "}
-                    <a href="#">Click Here</a>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("online");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -94,7 +202,16 @@ const Home = () => {
                   <h4>Offline Training</h4>
                   <p className="m-0">
                     Offline workshops every 3 months for professional
-                    development. <a href="#">Click Here</a>
+                    development.{" "}
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("offline");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -106,7 +223,16 @@ const Home = () => {
                   <h4>Networking</h4>
                   <p className="m-0">
                     School meetups for collaboration and knowledge sharing with
-                    scientists. <a href="#">Click Here</a>
+                    scientists.{" "}
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("networking");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -118,7 +244,15 @@ const Home = () => {
                   <h4>Chatbot</h4>
                   <p className="m-0">
                     AI-powered chatbot for students to clear doubts anytime.{" "}
-                    <a href="#">Click Here</a>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleClickHere("chatbot");
+                      }}
+                    >
+                      Click Here
+                    </a>
                   </p>
                 </div>
               </div>
@@ -166,7 +300,15 @@ const Home = () => {
               <p>
                 This session encourages students to think like scientists and
                 understand how STEM can lead to exciting careers—even at NASA.{" "}
-                <a href="#">Click Here</a>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleClickHere("nasa");
+                  }}
+                >
+                  Click Here
+                </a>
               </p>
             </div>
           </div>
@@ -188,15 +330,41 @@ const Home = () => {
               </p>
             </div>
           </div>
-          <div className="row">
-            {/* Sample Assessment Cards */}
+          <Slider
+            dots={true}
+            infinite={true}
+            speed={500}
+            slidesToShow={3}
+            slidesToScroll={1}
+            autoplay={true}
+            autoplaySpeed={3000}
+            nextArrow={<SampleNextArrow />}
+            prevArrow={<SamplePrevArrow />}
+            responsive={[
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 2,
+                  slidesToScroll: 1,
+                },
+              },
+              {
+                breakpoint: 600,
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                },
+              },
+            ]}
+          >
             {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div className="col-lg-4 mb-4" key={num}>
+              <div key={num} className="px-2">
                 <div className="bg-light text-center p-4 h-100">
                   <img
                     className="img-fluid mb-3"
                     src={require(`../assets/images/team-${num}.jpg`)}
                     alt={`Assessment ${num}`}
+                    style={{ width: "100%", height: "auto" }}
                   />
                   <h5 className="mb-3">Assessment Feature {num}</h5>
                   <p className="mb-2">
@@ -205,9 +373,12 @@ const Home = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </Slider>
           <div className="text-center">
-            <button className="btn btn-primary mt-5 text-center">
+            <button
+              className="btn btn-primary mt-5 text-center"
+              onClick={() => handleClickHere("assessment")}
+            >
               Click Here
             </button>
           </div>

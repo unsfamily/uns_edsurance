@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     userid: "",
     password: "",
@@ -12,6 +17,9 @@ const Login = () => {
     userid: "",
     password: "",
   });
+
+  const [apiError, setApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -27,7 +35,7 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let formIsValid = true;
@@ -52,9 +60,30 @@ const Login = () => {
     setErrors(newErrors);
 
     if (formIsValid) {
-      console.log("Form submitted successfully:", formData);
-      alert("Login successful!");
-      setFormData({ userid: "", password: "" });
+      setIsLoading(true);
+      setApiError("");
+
+      try {
+        const response = await axios.post(
+          "http://localhost:5002/api/auth/login",
+          {
+            email: formData.userid,
+            password: formData.password,
+          }
+        );
+
+        // Use the auth context to login
+        login(response.data.user, response.data.token);
+
+        // Redirect to home page
+        navigate("/");
+      } catch (error) {
+        setApiError(
+          error.response?.data?.msg || "Login failed. Please try again."
+        );
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -70,6 +99,11 @@ const Login = () => {
           </div>
           <div className="container mt-5 mb-5">
             <h2 className="mb-4 text-center">Register User Login</h2>
+            {apiError && (
+              <div className="alert alert-danger" role="alert">
+                {apiError}
+              </div>
+            )}
             <form onSubmit={handleSubmit} noValidate>
               <div className="row g-3">
                 <div className="col-md-6 mb-2">
@@ -108,9 +142,16 @@ const Login = () => {
                 </div>
               </div>
               <div className="text-center mt-4">
-                <button type="submit" className="btn btn-primary">
-                  Submit
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Logging in..." : "Submit"}
                 </button>
+              </div>
+              <div className="text-center mt-3">
+                <Link to="/forgot-password">Forgot Password?</Link>
               </div>
             </form>
           </div>
