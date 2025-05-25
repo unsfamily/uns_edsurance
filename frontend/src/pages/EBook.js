@@ -31,7 +31,7 @@ const EBook = () => {
     setShowPdfModal(false);
     setSelectedBook(null);
   };
-
+  console.log("isSubscribed", hasSubscription);
   const zoomIn = () => setZoomLevel((prev) => Math.min(prev + 10, 200));
   const zoomOut = () => setZoomLevel((prev) => Math.max(prev - 10, 50));
   const nextPage = () => setCurrentPage((prev) => prev + 1);

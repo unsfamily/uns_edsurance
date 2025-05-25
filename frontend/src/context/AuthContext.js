@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
       if (token && user) {
         setCurrentUser(user);
         setIsAuthenticated(true);
-        setHasSubscription(user.is_subscribed || false); // ✅ Fix key name
+        // setHasSubscription(user.is_subscribed || false); // ✅ Fix key name
+        setHasSubscription(user.is_subscribed === 1);
       }
     } catch (error) {
       console.error("Error loading auth state:", error);
@@ -35,7 +36,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(userData));
     setCurrentUser(userData);
     setIsAuthenticated(true);
-    setHasSubscription(userData.is_subscribed || false);
+    // setHasSubscription(userData.is_subscribed || false);
+    setHasSubscription(userData.is_subscribed === 1);
   };
 
   // ✅ Logout function

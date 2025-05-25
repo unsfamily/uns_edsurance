@@ -91,13 +91,13 @@ const Login = () => {
       <Header />
       <div className="container-fluid py-5">
         <div className="container py-5">
-          <div className="section-title position-relative mb-4">
+          <div className="section-title position-relative mb-4 text-center">
             <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2">
               Login Now
             </h6>
           </div>
-          <div className="container mt-5 mb-5">
-            <h2 className="mb-4 text-center">User Login</h2>
+          <div className="container mt-5 mb-5 col-md-6">
+            {/* <h2 className="mb-4 text-center">User Login</h2> */}
 
             {apiError && (
               <div className="alert alert-danger" role="alert">
