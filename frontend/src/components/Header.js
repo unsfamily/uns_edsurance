@@ -23,11 +23,12 @@ const Header = () => {
         <button
           type="button"
           className="navbar-toggler"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div
           className="collapse navbar-collapse justify-content-between px-lg-3"
           id="navbarCollapse"
@@ -40,33 +41,45 @@ const Header = () => {
               About
             </Link>
             <div className="nav-item dropdown">
-              <a
-                href="#"
+              <span
                 className="nav-link dropdown-toggle"
-                data-toggle="dropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
                 What We Offer
-              </a>
+              </span>
               <div className="dropdown-menu m-0">
-                <a href="#offering" className="dropdown-item">
-                  Offering
-                </a>
-                <a href="#nasa" className="dropdown-item">
-                  NASA Scientist
-                </a>
-                <a href="#assessment" className="dropdown-item">
-                  Student Assessment
-                </a>
+                <Link to="/ebook" className="dropdown-item">
+                  Digital Libraries and e-Learning Platforms
+                </Link>
+                <Link to="/lms" className="dropdown-item">
+                  Learning Management System (LMS)
+                </Link>
+                <Link to="/online-training" className="dropdown-item">
+                  Monthly online workshops
+                </Link>
+                <Link to="/offline-training" className="dropdown-item">
+                  Quarterly offline workshops
+                </Link>
+                <Link to="/networking" className="dropdown-item">
+                  Networking events
+                </Link>
+                <Link to="/collaborative-projects" className="dropdown-item">
+                  Collaborative projects
+                </Link>
+                <Link to="/industry" className="dropdown-item">
+                  Industry partnerships
+                </Link>
+                <Link to="/digital-videos" className="dropdown-item">
+                  Digital Videos
+                </Link>
               </div>
             </div>
             <Link to="/contact" className="nav-item nav-link">
               Contact
             </Link>
-            <Link to="/ebook" className="nav-item nav-link">
-              E-Books
-            </Link>
 
-            {/* Only show subscription link if user is authenticated */}
             {isAuthenticated && (
               <Link to="/subscription-form" className="nav-item nav-link">
                 Subscribe
@@ -75,16 +88,45 @@ const Header = () => {
           </div>
 
           {isAuthenticated ? (
-            <div className="d-none d-lg-flex align-items-center">
-              <span className="mr-3">
-                Welcome, {currentUser?.firstname || currentUser?.name || "User"}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="btn btn-secondary py-2 px-4"
-              >
-                Logout
-              </button>
+            <div className="d-none d-lg-flex align-items-center position-relative">
+              <div className="dropdown">
+                <button
+                  className="btn btn-outline-primary dropdown-toggle d-flex align-items-center"
+                  type="button"
+                  id="profileDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i className="fa fa-user-circle fa-lg me-2"></i>
+                  {currentUser?.firstname || currentUser?.name || "User"}
+                </button>
+                <ul
+                  className="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="profileDropdown"
+                >
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      <i className="fa fa-user me-2"></i> Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/change-password">
+                      <i className="fa fa-key me-2"></i> Change Password
+                    </Link>
+                  </li>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item text-danger"
+                      onClick={handleLogout}
+                    >
+                      <i className="fa fa-sign-out-alt me-2"></i> Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           ) : (
             <>

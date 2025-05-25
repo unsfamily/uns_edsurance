@@ -213,4 +213,47 @@ router.post("/reset-password/:token", async (req, res) => {
   }
 });
 
+router.get("/me", verifyToken, (req, res) => {
+  const userId = req.user.id;
+  db.query(
+    "SELECT id, name, email, is_subscribed FROM users WHERE id = ?",
+    [userId],
+    (err, result) => {
+      if (err || result.length === 0)
+        return res.status(500).json({ msg: "Error fetching user profile" });
+      res.json(result[0]);
+    }
+  );
+});
+
+// backend/routes/auth.js
+router.post("/change-password", verifyToken, async (req, res) => {
+  const userId = req.user.id;
+  const { currentPassword, newPassword } = req.body;
+
+  db.query(
+    "SELECT password FROM users WHERE id = ?",
+    [userId],
+    async (err, result) => {
+      if (err || result.length === 0)
+        return res.status(400).json({ msg: "User not found" });
+
+      const valid = await bcrypt.compare(currentPassword, result[0].password);
+      if (!valid)
+        return res.status(400).json({ msg: "Current password is incorrect" });
+
+      const hashed = await bcrypt.hash(newPassword, 10);
+      db.query(
+        "UPDATE users SET password = ? WHERE id = ?",
+        [hashed, userId],
+        (err2) => {
+          if (err2)
+            return res.status(500).json({ msg: "Password update failed" });
+          res.json({ msg: "Password updated successfully" });
+        }
+      );
+    }
+  );
+});
+
 module.exports = router;
