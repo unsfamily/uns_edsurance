@@ -105,7 +105,7 @@ const Register = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/auth/user/register",
+          "http://localhost:5002/api/auth/user/register",
           {
             firstname: formData.firstname,
             lastname: formData.lastname,
@@ -214,7 +214,9 @@ const Register = () => {
                     onChange={handleChange}
                   />
                   {errors.phone_number && (
-                    <div className="invalid-feedback">{errors.phone_number}</div>
+                    <div className="invalid-feedback">
+                      {errors.phone_number}
+                    </div>
                   )}
                 </div>
                 <div className="col-md-6 mb-2">

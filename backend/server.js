@@ -17,7 +17,9 @@ app.use(
 
 // Add request logging to debug routing issues
 app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} received`);
+  console.log(
+    `[${new Date().toISOString()}] ${req.method} ${req.url} received`
+  );
   next();
 });
 
@@ -30,8 +32,8 @@ app.get("/basic-test", (req, res) => {
 
 // Register auth routes under /api/auth with logging
 console.log("About to mount auth routes at /api/auth");
-app.use("/api/auth", authRoutes);
-console.log("Auth routes mounted");
+app.use("/api/auth/user", authRoutes);
+console.log("Auth routes mounted", Object.keys(authRoutes));
 
 // Test root route
 app.get("/", (req, res) => {

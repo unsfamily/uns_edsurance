@@ -9,7 +9,7 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -65,19 +65,21 @@ const Header = () => {
             <Link to="/ebook" className="nav-item nav-link">
               E-Books
             </Link>
-            
+
             {/* Only show subscription link if user is authenticated */}
             {isAuthenticated && (
-              <Link to="/subscription-register" className="nav-item nav-link">
+              <Link to="/subscription-form" className="nav-item nav-link">
                 Subscribe
               </Link>
             )}
           </div>
-          
+
           {isAuthenticated ? (
             <div className="d-none d-lg-flex align-items-center">
-              <span className="mr-3">Welcome, {currentUser?.firstname || currentUser?.name || 'User'}</span>
-              <button 
+              <span className="mr-3">
+                Welcome, {currentUser?.firstname || currentUser?.name || "User"}
+              </span>
+              <button
                 onClick={handleLogout}
                 className="btn btn-secondary py-2 px-4"
               >

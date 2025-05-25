@@ -78,7 +78,8 @@ const EBook = () => {
           title: "Biology Fundamentals",
           author: "Dr. Emily Roberts",
           cover: "https://via.placeholder.com/150",
-          description: "Learn the basics of biology with colorful illustrations.",
+          description:
+            "Learn the basics of biology with colorful illustrations.",
           isPremium: false,
           category: "Biology",
           pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
@@ -141,9 +142,8 @@ const EBook = () => {
           {!isAuthenticated && (
             <div className="alert alert-info mb-4">
               <p className="mb-0">
-                Please{" "}
-                <Link to="/login">login</Link> to access our full library of
-                e-books.
+                Please <Link to="/login">login</Link> to access our full library
+                of e-books.
                 <Link to="/register" className="ml-2">
                   Register now
                 </Link>{" "}
@@ -156,7 +156,7 @@ const EBook = () => {
             <div className="alert alert-warning mb-4">
               <p className="mb-0">
                 You're currently viewing our free e-book collection.
-                <Link to="/subscription-register" className="ml-2">
+                <Link to="/subscription-form" className="ml-2">
                   Subscribe now
                 </Link>{" "}
                 to access our premium collection!
@@ -252,53 +252,56 @@ const EBook = () => {
           )}
 
           {/* Show lock UI for premium books - for non-subscribers */}
-          {isAuthenticated && !hasSubscription &&
-
-          books.filter((book) => book.isPremium).length > 0 && (
-            <div className="row mt-4">
-              <div className="col-12">
-                <h3 className="text-center mb-4">Premium Content</h3>
-              </div>
-              {books
-                .filter((book) => book.isPremium)
-                .map((book) => (
-                  <div className="col-lg-4 col-md-6 mb-4" key={`premium-${book.id}`}>
+          {isAuthenticated &&
+            !hasSubscription &&
+            books.filter((book) => book.isPremium).length > 0 && (
+              <div className="row mt-4">
+                <div className="col-12">
+                  <h3 className="text-center mb-4">Premium Content</h3>
+                </div>
+                {books
+                  .filter((book) => book.isPremium)
+                  .map((book) => (
                     <div
-                      className="rounded overflow-hidden mb-2 h-100 shadow"
-                      style={{ opacity: "0.7" }}
+                      className="col-lg-4 col-md-6 mb-4"
+                      key={`premium-${book.id}`}
                     >
-                      <div className="position-relative">
-                        <div
-                          className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
-                          style={{
-                            top: 0,
-                            left: 0,
-                            background: "rgba(0,0,0,0.5)",
-                          }}
-                        >
-                          <i
-                            className="fa fa-lock text-white"
-                            style={{ fontSize: "3rem" }}
-                          ></i>
-                        </div>
-                      </div>
-                      <div className="bg-white p-4">
-                        <h5>{book.title}</h5>
-                        <p className="m-0">{book.description}</p>
-                        <div className="text-center mt-3">
-                          <Link
-                            to="/subscription-register"
-                            className="btn btn-warning"
+                      <div
+                        className="rounded overflow-hidden mb-2 h-100 shadow"
+                        style={{ opacity: "0.7" }}
+                      >
+                        <div className="position-relative">
+                          <div
+                            className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+                            style={{
+                              top: 0,
+                              left: 0,
+                              background: "rgba(0,0,0,0.5)",
+                            }}
                           >
-                            Subscribe to Access
-                          </Link>
+                            <i
+                              className="fa fa-lock text-white"
+                              style={{ fontSize: "3rem" }}
+                            ></i>
+                          </div>
+                        </div>
+                        <div className="bg-white p-4">
+                          <h5>{book.title}</h5>
+                          <p className="m-0">{book.description}</p>
+                          <div className="text-center mt-3">
+                            <Link
+                              to="/subscription-form"
+                              className="btn btn-warning"
+                            >
+                              Subscribe to Access
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-            </div>
-          )}
+                  ))}
+              </div>
+            )}
 
           {/* Subscription call to action - keeping existing logic */}
           {isAuthenticated && !hasSubscription && (
@@ -306,11 +309,11 @@ const EBook = () => {
               <div className="card p-4 bg-light">
                 <h3>Upgrade Your Learning Experience</h3>
                 <p className="mb-4">
-                  Get full access to our premium collection of educational e-books
-                  and materials.
+                  Get full access to our premium collection of educational
+                  e-books and materials.
                 </p>
                 <Link
-                  to="/subscription-register"
+                  to="/subscription-form"
                   className="btn btn-primary btn-lg"
                 >
                   Subscribe Now
@@ -328,10 +331,7 @@ const EBook = () => {
                   premium content.
                 </p>
                 <div>
-                  <Link
-                    to="/register"
-                    className="btn btn-primary btn-lg mr-3"
-                  >
+                  <Link to="/register" className="btn btn-primary btn-lg mr-3">
                     Register
                   </Link>
                   <Link to="/login" className="btn btn-outline-primary btn-lg">
@@ -379,9 +379,7 @@ const EBook = () => {
                   <iframe
                     ref={iframeRef}
                     key={iframeKey}
-                    src={`${
-                      selectedBook?.pdfUrl
-                    }#toolbar=0&navpanes=0&scrollbar=1&page=${currentPage}`}
+                    src={`${selectedBook?.pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&page=${currentPage}`}
                     frameBorder="0"
                     width="100%"
                     height="100%"

@@ -1,11 +1,17 @@
 // src/pages/Register.js
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import affiliationBoardOptions from "../constants/affiliationBoards";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-function Register() {
+// import { AuthContext } from "../context/AuthContext"; // assumes you store user context after login
+// import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // ✅ CORRECT
+
+function SubscriptionForm() {
+  //   const { user } = useContext(AuthContext); // contains userId, email, etc.
+  const { currentUser, updateSubscription } = useAuth(); // ✅ Use context correctly
   const [form, setForm] = useState({});
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
@@ -19,20 +25,30 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Form submitted:", form);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setError("User is not logged in");
+      return;
+    }
     e.preventDefault();
     setMsg("");
     setError("");
+
     try {
-      // Remove withCredentials to simplify the request
       const res = await axios.post(
-        "http://localhost:5002/api/auth/register",
-        form
+        "http://localhost:5002/api/auth/user/subscribe",
+        { ...form, userId: currentUser.id },
+        {
+          headers: {
+            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setMsg(res.data.msg);
     } catch (err) {
-      console.error("Registration error:", err);
-      setError(err.response?.data?.msg || "Submission failed");
+      setError(err.response?.data?.msg || "Subscription failed");
     }
   };
 
@@ -40,11 +56,11 @@ function Register() {
     <>
       <Header />
       <div className="container mt-4">
-        <h2>Institution Registration</h2>
+        <h2>Subscription</h2>
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
             <div className="col-md-6 mb-2">
-              <label className="form-label">Institution Name</label>
+              <label className="form-label">School Name</label>
               <input
                 name="institution_name"
                 className="form-control"
@@ -227,4 +243,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default SubscriptionForm;
