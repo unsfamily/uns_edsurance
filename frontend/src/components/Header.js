@@ -62,11 +62,21 @@ const Header = () => {
             <Link to="/contact" className="nav-item nav-link">
               Contact
             </Link>
+            <Link to="/ebook" className="nav-item nav-link">
+              E-Books
+            </Link>
+            
+            {/* Only show subscription link if user is authenticated */}
+            {isAuthenticated && (
+              <Link to="/subscription-register" className="nav-item nav-link">
+                Subscribe
+              </Link>
+            )}
           </div>
           
           {isAuthenticated ? (
             <div className="d-none d-lg-flex align-items-center">
-              <span className="mr-3">Welcome, {currentUser?.name || 'User'}</span>
+              <span className="mr-3">Welcome, {currentUser?.firstname || currentUser?.name || 'User'}</span>
               <button 
                 onClick={handleLogout}
                 className="btn btn-secondary py-2 px-4"

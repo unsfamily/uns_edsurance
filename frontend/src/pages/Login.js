@@ -62,10 +62,12 @@ const Login = () => {
     if (formIsValid) {
       setIsLoading(true);
       setApiError("");
+      
+      const loginEndpoint = "http://localhost:5000/api/auth/user/login";
 
       try {
         const response = await axios.post(
-          "http://18.207.188.98:5000/api/auth/login",
+          loginEndpoint,
           {
             email: formData.userid,
             password: formData.password,
@@ -98,7 +100,8 @@ const Login = () => {
             </h6>
           </div>
           <div className="container mt-5 mb-5">
-            <h2 className="mb-4 text-center">Register User Login</h2>
+            <h2 className="mb-4 text-center">User Login</h2>
+            
             {apiError && (
               <div className="alert alert-danger" role="alert">
                 {apiError}
@@ -106,9 +109,9 @@ const Login = () => {
             )}
             <form onSubmit={handleSubmit} noValidate>
               <div className="row g-3">
-                <div className="col-md-6 mb-2">
+                <div className="col-md-12 mb-2">
                   <label htmlFor="userid" className="form-label">
-                    User ID (Email Id) *
+                    Email *
                   </label>
                   <input
                     type="text"
@@ -123,7 +126,7 @@ const Login = () => {
                     <div className="invalid-feedback">{errors.userid}</div>
                   )}
                 </div>
-                <div className="col-md-6 mb-2">
+                <div className="col-md-12 mb-2">
                   <label htmlFor="password" className="form-label">
                     Password *
                   </label>
@@ -147,11 +150,14 @@ const Login = () => {
                   className="btn btn-primary"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Logging in..." : "Submit"}
+                  {isLoading ? "Logging in..." : "Login"}
                 </button>
               </div>
               <div className="text-center mt-3">
                 <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
+              <div className="text-center mt-2">
+                Don't have an account? <Link to="/register">Register</Link>
               </div>
             </form>
           </div>

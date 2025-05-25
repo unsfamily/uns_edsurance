@@ -6,6 +6,8 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasSubscription, setHasSubscription] = useState(false); // Add this state
   const [loading, setLoading] = useState(true);
 
   // Check for existing user on mount
@@ -16,6 +18,10 @@ export const AuthProvider = ({ children }) => {
       
       if (token && user) {
         setCurrentUser(user);
+        setIsAuthenticated(true);
+        
+        // Set subscription status based on stored user data
+        setHasSubscription(user.has_subscription || false);
       }
     } catch (error) {
       console.error('Error loading auth state:', error);
@@ -32,6 +38,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
     setCurrentUser(userData);
+    setIsAuthenticated(true);
+    setHasSubscription(userData.has_subscription || false);
   };
 
   // Logout function
@@ -40,6 +48,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setCurrentUser(null);
+    setIsAuthenticated(false);
+    setHasSubscription(false);
     
     // If there are any other auth-related items in localStorage, clear them too
     const authKeys = ['auth', 'permissions', 'role'];
@@ -50,12 +60,24 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // Add a function to update subscription status
+  const updateSubscription = (status) => {
+    if (currentUser) {
+      const updatedUser = { ...currentUser, has_subscription: status };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setCurrentUser(updatedUser);
+      setHasSubscription(status);
+    }
+  };
+
   const value = {
     currentUser,
-    isAuthenticated: !!currentUser,
+    isAuthenticated,
+    hasSubscription, // Add this to the context
+    loading,
     login,
     logout,
-    loading
+    updateSubscription // Add this function
   };
 
   return (

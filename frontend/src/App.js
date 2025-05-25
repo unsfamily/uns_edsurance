@@ -17,6 +17,7 @@ import OfflineTraining from "./pages/OfflineTraining";
 import FreeWebsites from "./pages/FreeWebsites";
 import Chatbot from "./pages/Chatbot";
 import Networking from "./pages/Networking";
+import SubscriptionRegister from "./pages/SubscriptionRegister";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/free-websites" element={<FreeWebsites />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/networking" element={<Networking />} />
+          <Route path="/subscription-register" element={<SubscriptionRegister />} />
           {/* Add more routes as needed */}
         </Routes>
       </AuthProvider>
