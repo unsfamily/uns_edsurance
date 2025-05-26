@@ -16,27 +16,35 @@ const OfflineTraining = () => {
   return (
     <>
       <Header />
-      <div class="container-fluid py-5">
-        <div class="container py-5">
-          <h2 class="text-center text-warning mb-4">
-            🏫 Upcoming In-Person Events
-          </h2>
-          <p class="text-center mb-5">
-            Meet fellow students and educators face-to-face in your area.
-          </p>
+      <div className="container-fluid py-5">
+        <div className="container-fluid py-5">
+          <div className="container py-5">
+            <h2 className="text-center text-warning mb-4">
+              🏫 Quaterly offline workshops
+            </h2>
+            <p className="text-center mb-5">
+              Meet fellow students and educators face-to-face in your area.
+            </p>
 
-          <ul class="list-group shadow">
-            <li class="list-group-item">
-              <strong>May 28, 2025:</strong> STEM Workshop – Lincoln High
-              School, NY
-            </li>
-            <li class="list-group-item">
-              <strong>June 3, 2025:</strong> Project Showcase – Community
-              Learning Center, LA
-            </li>
-          </ul>
+            <ul className="list-group shadow">
+              <li className="list-group-item">
+                <strong>May 28, 2025:</strong> STEM Workshop – Lincoln High
+                School, NY
+              </li>
+              <li className="list-group-item">
+                <strong>June 3, 2025:</strong> Project Showcase – Community
+                Learning Center, LA
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="text-center mt-4">
+          <button className="btn btn-primary">
+            Enroll in UNS for this facility
+          </button>
         </div>
       </div>
+
       <Footer />
     </>
   );

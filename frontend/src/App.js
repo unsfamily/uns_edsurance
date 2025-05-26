@@ -15,8 +15,15 @@ import EBook from "./pages/EBook";
 import OnlineTraining from "./pages/OnlineTraining";
 import OfflineTraining from "./pages/OfflineTraining";
 import FreeWebsites from "./pages/FreeWebsites";
-import Chatbot from "./pages/Chatbot";
 import Networking from "./pages/Networking";
+import SubscriptionRegister from "./pages/SubscriptionRegister";
+import SubscriptionForm from "./pages/SubscriptionForm";
+import Lms from "./pages/Lms";
+import CollaborativeProjects from "./pages/CollaborativeProjects";
+import Industry from "./pages/Industry";
+import DigitalVideos from "./pages/DigitalVideos";
+import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   return (
@@ -36,8 +43,22 @@ function App() {
           <Route path="/online-training" element={<OnlineTraining />} />
           <Route path="/offline-training" element={<OfflineTraining />} />
           <Route path="/free-websites" element={<FreeWebsites />} />
-          <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/networking" element={<Networking />} />
+          <Route path="/lms" element={<Lms />} />
+          <Route
+            path="/collaborative-projects"
+            element={<CollaborativeProjects />}
+          />
+          <Route path="/industry" element={<Industry />} />
+          <Route path="/digital-videos" element={<DigitalVideos />} />
+          <Route
+            path="/subscription-register"
+            element={<SubscriptionRegister />}
+          />
+          <Route path="/subscription-form" element={<SubscriptionForm />} />
+
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/change-password" element={<ChangePassword />} />
           {/* Add more routes as needed */}
         </Routes>
       </AuthProvider>

@@ -8,6 +8,18 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import diglib from "../assets/images/diglib.jpg";
+import lms from "../assets/images/lms.jpg";
+import online from "../assets/images/online.jpg";
+import offline from "../assets/images/Offline.jpg";
+import networking from "../assets/images/networking.jpg";
+import collab from "../assets/images/collab.jpg";
+import industry from "../assets/images/ind.jpg";
+import digvideo from "../assets/images/digvideo.jpg";
+import award from "../assets/images/award.png";
+import money from "../assets/images/money.png";
+import material from "../assets/images/material.png";
+
 const Home = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -19,20 +31,29 @@ const Home = () => {
         case "ebook":
           navigate("/ebook");
           break;
+        case "lms":
+          navigate("/lms");
+          break;
         case "online":
           navigate("/online-training");
           break;
         case "offline":
           navigate("/offline-training");
           break;
-        case "websites":
-          navigate("/free-websites");
-          break;
-        case "chatbot":
-          navigate("/chatbot");
-          break;
+
         case "networking":
           navigate("/networking");
+          break;
+
+        case "collaborative":
+          navigate("/collaborative-projects");
+          break;
+
+        case "industry":
+          navigate("/industry");
+          break;
+        case "digivideo":
+          navigate("/digital-videos");
           break;
 
         default:
@@ -44,343 +65,307 @@ const Home = () => {
     }
   };
 
-  const SampleNextArrow = (props) => {
-    const { onClick } = props;
-    return (
-      <div
-        className="slick-arrow"
-        onClick={onClick}
-        style={{
-          position: "absolute",
-          right: "-25px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 1,
-          cursor: "pointer",
-          fontSize: "24px",
-          color: "#007bff",
-        }}
-      >
-        <i className="fa fa-chevron-right"></i>
-      </div>
-    );
-  };
+  // const SampleNextArrow = (props) => {
+  //   const { onClick } = props;
+  //   return (
+  //     <div
+  //       className="slick-arrow"
+  //       onClick={onClick}
+  //       style={{
+  //         position: "absolute",
+  //         right: "-25px",
+  //         top: "50%",
+  //         transform: "translateY(-50%)",
+  //         zIndex: 1,
+  //         cursor: "pointer",
+  //         fontSize: "24px",
+  //         color: "#007bff",
+  //       }}
+  //     >
+  //       <i className="fa fa-chevron-right"></i>
+  //     </div>
+  //   );
+  // };
 
-  const SamplePrevArrow = (props) => {
-    const { onClick } = props;
-    return (
-      <div
-        className="slick-arrow"
-        onClick={onClick}
-        style={{
-          position: "absolute",
-          left: "-25px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 1,
-          cursor: "pointer",
-          fontSize: "24px",
-          color: "#007bff",
-        }}
-      >
-        <i className="fa fa-chevron-left"></i>
-      </div>
-    );
-  };
+  // const SamplePrevArrow = (props) => {
+  //   const { onClick } = props;
+  //   return (
+  //     <div
+  //       className="slick-arrow"
+  //       onClick={onClick}
+  //       style={{
+  //         position: "absolute",
+  //         left: "-25px",
+  //         top: "50%",
+  //         transform: "translateY(-50%)",
+  //         zIndex: 1,
+  //         cursor: "pointer",
+  //         fontSize: "24px",
+  //         color: "#007bff",
+  //       }}
+  //     >
+  //       <i className="fa fa-chevron-left"></i>
+  //     </div>
+  //   );
+  // };
 
   return (
     <>
       <Header />
 
       {/* Hero Section */}
-      <div
-        className="jumbotron jumbotron-fluid position-relative overlay-bottom"
-        style={{ marginBottom: "90px" }}
-      >
+
+      <div className="jumbotron jumbotron-fluid position-relative overlay-bottom">
         <div className="container text-center my-5 py-5">
-          <h1 className="text-white display-1 mb-5">Edsurance</h1>
-          <div className="text-white fs-20">
-            A comprehensive solution to modern educational challenges by
-            involving{" "}
-            <span className="font-weight-bold text-dark">
-              parents, psychologists, therapists, career experts, literary
-              professionals
-            </span>{" "}
-            during children's formative years.
-          </div>
-          <div className="text-white fs-20">
-            It emphasizes holistic development, instills moral values through
-            practice, restores habits impacted by technology, supports children
-            in difficult times, nurtures talent, and prepares them for
-            independence.
-          </div>
+          <h1 className="text-white display-1 mb-5">
+            Edsurance<span className="fs-20">2.0</span>
+          </h1>
         </div>
       </div>
 
-      {/* Offerings Section */}
-      <div className="container-fluid bg-image" style={{ margin: "30px 0" }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-7 my-4 pb-lg-5">
-              <div
-                className="section-title position-relative mb-4"
-                id="offering"
-              >
-                <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2">
-                  Edsurance offering schools
+      <div className="container-fluid bg-image"></div>
+
+      <div className="client_section container">
+        <div className="box">
+          <div className="img-box">
+            <img src={diglib} alt="Digital Libraries" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Digital Libraries and e-Learning Platforms</h5>
+                <h6>
+                  Access to thousands of e-books, online courses from top
+                  universities
                 </h6>
               </div>
-              <div className="d-flex mb-3">
-                <div className="btn-icon bg-primary mr-4">
-                  <i className="fa fa-2x fa-book-open text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Free E-Books</h4>
-                  <p>
-                    Edsurance offers access to a vast digital library with lakhs
-                    of eBooks, covering diverse subjects and academic levels.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("ebook");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex mb-3">
-                <div className="btn-icon bg-secondary mr-4">
-                  <i className="fa fa-2x fa-globe text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Free Websites</h4>
-                  <p>
-                    Edsurance will create a personalized website for each
-                    school, showcasing their achievements and offerings at no
-                    cost.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("websites");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex mb-3">
-                <div className="btn-icon bg-warning mr-4">
-                  <i className="fa fa-2x fa-laptop text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Online Training</h4>
-                  <p className="m-0">
-                    Scientist-led classes, webinars, and research-based learning
-                    to enhance education and innovation.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("online");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex mb-3">
-                <div className="btn-icon bg-info mr-4">
-                  <i className="fa fa-2x fa-book-reader text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Offline Training</h4>
-                  <p className="m-0">
-                    Offline workshops every 3 months for professional
-                    development.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("offline");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex mb-3">
-                <div className="btn-icon bg-success mr-4">
-                  <i className="fa fa-2x fa-network-wired text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Networking</h4>
-                  <p className="m-0">
-                    School meetups for collaboration and knowledge sharing with
-                    scientists.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("networking");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex">
-                <div className="btn-icon bg-secondary mr-4">
-                  <i className="fa fa-2x fa-comments text-white"></i>
-                </div>
-                <div className="mt-n1">
-                  <h4>Chatbot</h4>
-                  <p className="m-0">
-                    AI-powered chatbot for students to clear doubts anytime.{" "}
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleClickHere("chatbot");
-                      }}
-                    >
-                      Click Here
-                    </a>
-                  </p>
-                </div>
-              </div>
             </div>
-            <div className="col-lg-5" style={{ minHeight: "500px" }}>
-              <div className="position-relative h-100">
-                <img
-                  className="position-absolute w-100 h-100"
-                  src={require("../assets/images/feature.jpg")}
-                  style={{ objectFit: "cover" }}
-                  alt="Feature"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* NASA Scientist Section */}
-      <div className="container-fluid" style={{ margin: "30px 0" }}>
-        <div className="container">
-          <div className="section-title position-relative mb-4">
-            <h6 className="d-inline-block mt-5 position-relative text-secondary text-uppercase pb-2">
-              A Journey Through the Universe with a NASA Scientist
-            </h6>
-          </div>
-          <div className="row">
-            <div className="col-lg-5" style={{ minHeight: "400px" }}>
-              <div className="position-relative h-100">
-                <img
-                  className="position-absolute right-radious w-100 h-100"
-                  src={require("../assets/images/nasa.jpg")}
-                  style={{ objectFit: "cover" }}
-                  alt="NASA Scientist"
-                />
-              </div>
-            </div>
-            <div className="col-lg-7 my-1 pb-lg-5" id="nasa">
-              <h4 className="mb-4">NASA Scientist</h4>
-              <p>
-                Join us for an inspiring session with a NASA scientist as they
-                explore the wonders of space, technology, and discovery. Learn
-                about Mars rovers, astronaut training, black holes, and more.
-              </p>
-              <p>
-                This session encourages students to think like scientists and
-                understand how STEM can lead to exciting careers—even at NASA.{" "}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClickHere("nasa");
-                  }}
-                >
-                  Click Here
-                </a>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Student Assessment Platform */}
-      <div className="container-fluid py-5">
-        <div className="container py-5" id="assessment">
-          <div className="col-lg-12">
-            <div className="section-title text-center position-relative mb-4">
-              <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2">
-                Student Assessment Platform
-              </h6>
-              <p className="fs-20 mt-2">
-                Real-time tracking of student performance through quizzes,
-                assignments, and analytics. AI-powered insights for personalized
-                learning.
-              </p>
-            </div>
-          </div>
-          <Slider
-            dots={true}
-            infinite={true}
-            speed={500}
-            slidesToShow={3}
-            slidesToScroll={1}
-            autoplay={true}
-            autoplaySpeed={3000}
-            nextArrow={<SampleNextArrow />}
-            prevArrow={<SamplePrevArrow />}
-            responsive={[
-              {
-                breakpoint: 1024,
-                settings: {
-                  slidesToShow: 2,
-                  slidesToScroll: 1,
-                },
-              },
-              {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1,
-                },
-              },
-            ]}
-          >
-            {[1, 2, 3, 4, 5, 6].map((num) => (
-              <div key={num} className="px-2">
-                <div className="bg-light text-center p-4 h-100">
-                  <img
-                    className="img-fluid mb-3"
-                    src={require(`../assets/images/team-${num}.jpg`)}
-                    alt={`Assessment ${num}`}
-                    style={{ width: "100%", height: "auto" }}
-                  />
-                  <h5 className="mb-3">Assessment Feature {num}</h5>
-                  <p className="mb-2">
-                    Details about feature {num} of the assessment platform.
-                  </p>
-                </div>
-              </div>
-            ))}
-          </Slider>
-          <div className="text-center">
-            <button
+            <a
               className="btn btn-primary mt-5 text-center"
-              onClick={() => handleClickHere("assessment")}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("ebook");
+              }}
             >
-              Click Here
-            </button>
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={lms} alt="LMS" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Learning Management System (LMS)</h5>
+                <h6>
+                  Educational software and tools, virtual labs and, educational
+                  games
+                </h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("lms");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={online} alt="Online Workshops" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Monthly online workshops</h5>
+                <h6>
+                  Topics like innovative teaching methods, technology
+                  integration, educational leadership
+                </h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("online");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={offline} alt="Offline Workshops" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Quaterly offline workshops</h5>
+                <h6>
+                  Professional development workshops, hands-on training for
+                  teachers, leadership development
+                </h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("offline");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={networking} alt="Networking" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Networking events</h5>
+                <h6>Meet industry experts, educators, and innovators</h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("networking");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={collab} alt="Collaborative Projects" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Collaborative projects</h5>
+                <h6>Joint research projects, student exchange programs</h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("collaborative");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={industry} alt="Industry" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Industry partnerships</h5>
+                <h6>
+                  Internships, job placements, collaborative research projects
+                </h6>
+              </div>
+            </div>
+            <a
+              className="btn btn-primary mt-5 text-center"
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("industry");
+              }}
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+        <div className="box">
+          <div className="img-box">
+            <img src={digvideo} alt="Digital Videos" />
+          </div>
+          <div className="detail-box">
+            <div className="client_info">
+              <div className="client_name">
+                <h5>Digital Videos</h5>
+                <h6>
+                  Access to thousands of videos for educational and, training
+                </h6>
+              </div>
+            </div>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleClickHere("digivideo");
+              }}
+              className="btn btn-primary mt-5 text-center"
+            >
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="section-title text-center">
+          <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2 my-4">
+            Additional Incentives
+          </h6>
+        </div>
+        <div className="row g-4">
+          <div className="col-md-4">
+            <div className="incentive-box">
+              <div className="text-center">
+                <img width="100px" src={award} alt="Awards" />
+              </div>
+              <h4>Recognition & Awards</h4>
+              <p>
+                National-level recognition for outstanding educators or
+                institutions.
+              </p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="incentive-box">
+              <div className="text-center">
+                <img width="100px" src={money} alt="Funding" />
+              </div>
+              <h4>Funding Opportunities</h4>
+              <p>
+                Grants for research projects, infrastructure development, and
+                innovation initiatives.
+              </p>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="incentive-box">
+              <div className="text-center">
+                <img width="100px" src={material} alt="Resources" />
+              </div>
+              <h4>Resource Sharing</h4>
+              <p>Educational materials, equipment, or funding</p>
+            </div>
           </div>
         </div>
       </div>

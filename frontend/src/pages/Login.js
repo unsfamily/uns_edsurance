@@ -63,14 +63,13 @@ const Login = () => {
       setIsLoading(true);
       setApiError("");
 
+      const loginEndpoint = "http://localhost:5002/api/auth/user/login";
+
       try {
-        const response = await axios.post(
-          "http://localhost:5002/api/auth/login",
-          {
-            email: formData.userid,
-            password: formData.password,
-          }
-        );
+        const response = await axios.post(loginEndpoint, {
+          email: formData.userid,
+          password: formData.password,
+        });
 
         // Use the auth context to login
         login(response.data.user, response.data.token);
@@ -92,13 +91,14 @@ const Login = () => {
       <Header />
       <div className="container-fluid py-5">
         <div className="container py-5">
-          <div className="section-title position-relative mb-4">
+          <div className="section-title position-relative mb-4 text-center">
             <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2">
               Login Now
             </h6>
           </div>
-          <div className="container mt-5 mb-5">
-            <h2 className="mb-4 text-center">Register User Login</h2>
+          <div className="container mt-5 mb-5 col-md-6">
+            {/* <h2 className="mb-4 text-center">User Login</h2> */}
+
             {apiError && (
               <div className="alert alert-danger" role="alert">
                 {apiError}
@@ -106,9 +106,9 @@ const Login = () => {
             )}
             <form onSubmit={handleSubmit} noValidate>
               <div className="row g-3">
-                <div className="col-md-6 mb-2">
+                <div className="col-md-12 mb-2">
                   <label htmlFor="userid" className="form-label">
-                    User ID (Email Id) *
+                    Email *
                   </label>
                   <input
                     type="text"
@@ -123,7 +123,7 @@ const Login = () => {
                     <div className="invalid-feedback">{errors.userid}</div>
                   )}
                 </div>
-                <div className="col-md-6 mb-2">
+                <div className="col-md-12 mb-2">
                   <label htmlFor="password" className="form-label">
                     Password *
                   </label>
@@ -147,11 +147,14 @@ const Login = () => {
                   className="btn btn-primary"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Logging in..." : "Submit"}
+                  {isLoading ? "Logging in..." : "Login"}
                 </button>
               </div>
               <div className="text-center mt-3">
                 <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
+              <div className="text-center mt-2">
+                Don't have an account? <Link to="/register">Register</Link>
               </div>
             </form>
           </div>

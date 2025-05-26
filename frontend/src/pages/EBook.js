@@ -1,20 +1,116 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useAuth } from "../context/AuthContext";
-import { Modal, Button } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 
-// Try a different approach instead of react-pdf
 const EBook = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser, hasSubscription } = useAuth();
   const navigate = useNavigate();
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Modal state for PDF viewer
   const [showPdfModal, setShowPdfModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(100);
   const [currentPage, setCurrentPage] = useState(1);
-  const [iframeKey, setIframeKey] = useState(0); // Add a key to force iframe refresh
+  const [iframeKey, setIframeKey] = useState(0);
   const iframeRef = useRef(null);
+
+  // Modal handlers
+  const handleOpenPdf = (book) => {
+    setSelectedBook(book);
+    setCurrentPage(1);
+    setZoomLevel(100);
+    setShowPdfModal(true);
+  };
+
+  const handleClosePdf = () => {
+    setShowPdfModal(false);
+    setSelectedBook(null);
+  };
+  console.log("isSubscribed", hasSubscription);
+  const zoomIn = () => setZoomLevel((prev) => Math.min(prev + 10, 200));
+  const zoomOut = () => setZoomLevel((prev) => Math.max(prev - 10, 50));
+  const nextPage = () => setCurrentPage((prev) => prev + 1);
+  const prevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
+
+  // Mock data - in a real app, this would come from an API
+  useEffect(() => {
+    // Simulating API call
+    setTimeout(() => {
+      const mockBooks = [
+        {
+          id: 1,
+          title: "Advanced Mathematics for High School Students",
+          author: "Dr. Sarah Johnson",
+          cover: "https://via.placeholder.com/150",
+          description: "Comprehensive guide for advanced mathematics concepts.",
+          isPremium: true,
+          category: "Mathematics",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+        {
+          id: 2,
+          title: "Introduction to Physics",
+          author: "Prof. Robert Miller",
+          cover: "https://via.placeholder.com/150",
+          description: "Basic concepts of Physics explained in simple terms.",
+          isPremium: false,
+          category: "Physics",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+        {
+          id: 3,
+          title: "World History: Complete Edition",
+          author: "Dr. Michael Thompson",
+          cover: "https://via.placeholder.com/150",
+          description:
+            "A complete walkthrough of world history from ancient civilizations to modern era.",
+          isPremium: true,
+          category: "History",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+        {
+          id: 4,
+          title: "Biology Fundamentals",
+          author: "Dr. Emily Roberts",
+          cover: "https://via.placeholder.com/150",
+          description:
+            "Learn the basics of biology with colorful illustrations.",
+          isPremium: false,
+          category: "Biology",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+        {
+          id: 5,
+          title: "Advanced Chemistry Concepts",
+          author: "Prof. Alan Davidson",
+          cover: "https://via.placeholder.com/150",
+          description:
+            "Deep dive into chemical reactions and molecular structures.",
+          isPremium: true,
+          category: "Chemistry",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+        {
+          id: 6,
+          title: "English Literature Classics",
+          author: "Dr. Lisa Montgomery",
+          cover: "https://via.placeholder.com/150",
+          description: "Analysis of classic works from Shakespeare to Austen.",
+          isPremium: true,
+          category: "Literature",
+          pdfUrl: "https://www.africau.edu/images/default/sample.pdf",
+        },
+      ];
+
+      setBooks(mockBooks);
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -23,124 +119,10 @@ const EBook = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Open PDF viewer modal
-  const handleOpenPdf = (book) => {
-    setSelectedBook(book);
-    setShowPdfModal(true);
-  };
-
-  // Close PDF viewer modal
-  const handleClosePdf = () => {
-    setShowPdfModal(false);
-    setSelectedBook(null);
-  };
-
-  // Zoom functions using CSS transform instead of PDF parameters
-  const zoomIn = () => {
-    setZoomLevel((prev) => Math.min(prev + 25, 200));
-  };
-
-  const zoomOut = () => {
-    setZoomLevel((prev) => Math.max(prev - 25, 50));
-  };
-
-  // Page navigation with iframe refresh
-  const nextPage = () => {
-    setCurrentPage((prev) => {
-      const newPage = prev + 1;
-      refreshIframe(newPage);
-      return newPage;
-    });
-  };
-
-  const prevPage = () => {
-    setCurrentPage((prev) => {
-      const newPage = Math.max(prev - 1, 1);
-      refreshIframe(newPage);
-      return newPage;
-    });
-  };
-
-  // Function to refresh iframe for page changes only
-  const refreshIframe = (page) => {
-    if (iframeRef.current) {
-      const url = `${selectedBook.pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&page=${page}`;
-      iframeRef.current.src = url;
-    }
-  };
-
-  // Reset zoom and page when opening a new PDF
-  useEffect(() => {
-    if (showPdfModal) {
-      setZoomLevel(100);
-      setCurrentPage(1);
-      setIframeKey((prev) => prev + 1); // Reset iframe
-    }
-  }, [showPdfModal, selectedBook]);
-
-  // Sample eBook data with PDF URLs pointing to local files
-  const ebooks = [
-    {
-      id: 1,
-      title: "Advanced Mathematics for Grade 10",
-      author: "Dr. Jane Smith",
-      cover: "feature.jpg",
-      category: "Mathematics",
-      description:
-        "A comprehensive guide to advanced mathematics concepts for 10th grade students.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/e31daba2-d427-4bf9-bf36-4a6b6b42d9c2.pdf`,
-    },
-    {
-      id: 2,
-      title: "Introduction to Physics",
-      author: "Prof. Robert Johnson",
-      cover: "nasa.jpg",
-      category: "Science",
-      description:
-        "Learn the fundamentals of physics with practical examples and exercises.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/intro-physics.pdf`,
-    },
-    {
-      id: 3,
-      title: "World History: Modern Era",
-      author: "Dr. Michael Brown",
-      cover: "team-1.jpg",
-      category: "History",
-      description:
-        "Explore the significant events that shaped the modern world from 1750 to present.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/world-history.pdf`,
-    },
-    {
-      id: 4,
-      title: "English Literature Classics",
-      author: "Elizabeth Wilson",
-      cover: "team-2.jpg",
-      category: "Literature",
-      description:
-        "A collection of classic literature works with analysis and interpretation.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/english-literature.pdf`,
-    },
-    {
-      id: 5,
-      title: "Computer Science Fundamentals",
-      author: "Tech Education Group",
-      cover: "team-3.jpg",
-      category: "Technology",
-      description:
-        "Introduction to programming, algorithms, and computer science principles.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/computer-science.pdf`,
-    },
-    {
-      id: 6,
-      title: "Biology: Understanding Life",
-      author: "Dr. Sarah Thompson",
-      cover: "team-4.jpg",
-      category: "Science",
-      description:
-        "Comprehensive guide to understanding biological systems and processes.",
-      pdfUrl: `${process.env.PUBLIC_URL}/pdf/biology.pdf`,
-    },
-  ];
+  // Filter books based on subscription status
+  const visibleBooks = books.filter(
+    (book) => !book.isPremium || hasSubscription
+  );
 
   return (
     <>
@@ -156,42 +138,209 @@ const EBook = () => {
             </h1>
           </div>
 
-          <div className="row">
-            {ebooks.map((book) => (
-              <div className="col-lg-4 col-md-6 mb-4" key={book.id}>
-                <div className="rounded overflow-hidden mb-2 h-100 shadow">
-                  {/* <img 
-                    className="img-fluid w-100" 
-                    src={require(`../assets/images/${book.cover}`)} 
-                    alt={book.title}
-                    style={{ height: "200px", objectFit: "cover" }}
-                  /> */}
-                  <div className="bg-white p-4">
-                    {/* <div className="d-flex mb-2">
-                      <small className="m-0 me-2">
-                        <i className="fa fa-user text-primary mr-1"></i>{" "}
-                        {book.author}
-                      </small>
-                      <small className="m-0">
-                        <i className="fa fa-folder text-primary mr-1"></i>{" "}
-                        {book.category}
-                      </small>
-                    </div> */}
-                    <h5>{book.title}</h5>
-                    <p className="m-0">{book.description}</p>
-                    <div className="text-center mt-3">
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => handleOpenPdf(book)}
-                      >
-                        Read Now
-                      </button>
+          {/* Show subscription status alerts - keeping existing logic */}
+          {!isAuthenticated && (
+            <div className="alert alert-info mb-4">
+              <p className="mb-0">
+                Please <Link to="/login">login</Link> to access our full library
+                of e-books.
+                <Link to="/register" className="ml-2">
+                  Register now
+                </Link>{" "}
+                if you don't have an account!
+              </p>
+            </div>
+          )}
+
+          {isAuthenticated && !hasSubscription && (
+            <div className="alert alert-warning mb-4">
+              <p className="mb-0">
+                You're currently viewing our free e-book collection.
+                <Link to="/subscription-form" className="ml-2">
+                  Subscribe now
+                </Link>{" "}
+                to access our premium collection!
+              </p>
+            </div>
+          )}
+
+          {loading ? (
+            <div className="text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+              <p className="mt-2">Loading e-books...</p>
+            </div>
+          ) : (
+            <div className="row">
+              {visibleBooks.map((book) => (
+                <div className="col-lg-4 col-md-6 mb-4" key={book.id}>
+                  <div
+                    className={`rounded overflow-hidden mb-2 h-100 shadow ${
+                      book.isPremium ? "border border-warning" : ""
+                    }`}
+                  >
+                    {/* Premium badge */}
+                    {book.isPremium && (
+                      <div className="position-relative">
+                        <div
+                          className="position-absolute"
+                          style={{
+                            top: "10px",
+                            right: "10px",
+                            zIndex: 1,
+                          }}
+                        >
+                          <span className="badge bg-warning text-dark">
+                            <i className="fa fa-star mr-1"></i> Premium
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Free badge */}
+                    {!book.isPremium && (
+                      <div className="position-relative">
+                        <div
+                          className="position-absolute"
+                          style={{
+                            top: "10px",
+                            right: "10px",
+                            zIndex: 1,
+                          }}
+                        >
+                          <span className="badge bg-success text-white">
+                            <i className="fa fa-check-circle mr-1"></i> Free
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Book content */}
+                    <div
+                      className={`p-4 ${
+                        book.isPremium ? "bg-light" : "bg-white"
+                      }`}
+                    >
+                      <h5>
+                        {book.title}
+                        {book.isPremium && (
+                          <small className="ms-2 text-warning">
+                            <i className="fa fa-crown"></i>
+                          </small>
+                        )}
+                      </h5>
+                      <p className="m-0">{book.description}</p>
+                      <div className="d-flex justify-content-between align-items-center mt-3">
+                        <small className="text-muted">
+                          <i className="fa fa-book me-1"></i> {book.category}
+                        </small>
+                        <button
+                          className={`btn ${
+                            book.isPremium ? "btn-warning" : "btn-primary"
+                          }`}
+                          onClick={() => handleOpenPdf(book)}
+                        >
+                          Read Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
+              ))}
+            </div>
+          )}
+
+          {/* Show lock UI for premium books - for non-subscribers */}
+          {isAuthenticated &&
+            !hasSubscription &&
+            books.filter((book) => book.isPremium).length > 0 && (
+              <div className="row mt-4">
+                <div className="col-12">
+                  <h3 className="text-center mb-4">Premium Content</h3>
+                </div>
+                {books
+                  .filter((book) => book.isPremium)
+                  .map((book) => (
+                    <div
+                      className="col-lg-4 col-md-6 mb-4"
+                      key={`premium-${book.id}`}
+                    >
+                      <div
+                        className="rounded overflow-hidden mb-2 h-100 shadow"
+                        style={{ opacity: "0.7" }}
+                      >
+                        <div className="position-relative">
+                          <div
+                            className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center"
+                            style={{
+                              top: 0,
+                              left: 0,
+                              background: "rgba(0,0,0,0.5)",
+                            }}
+                          >
+                            <i
+                              className="fa fa-lock text-white"
+                              style={{ fontSize: "3rem" }}
+                            ></i>
+                          </div>
+                        </div>
+                        <div className="bg-white p-4">
+                          <h5>{book.title}</h5>
+                          <p className="m-0">{book.description}</p>
+                          <div className="text-center mt-3">
+                            <Link
+                              to="/subscription-form"
+                              className="btn btn-warning"
+                            >
+                              Subscribe to Access
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
               </div>
-            ))}
-          </div>
+            )}
+
+          {/* Subscription call to action - keeping existing logic */}
+          {isAuthenticated && !hasSubscription && (
+            <div className="text-center mt-5">
+              <div className="card p-4 bg-light">
+                <h3>Upgrade Your Learning Experience</h3>
+                <p className="mb-4">
+                  Get full access to our premium collection of educational
+                  e-books and materials.
+                </p>
+                <Link
+                  to="/subscription-form"
+                  className="btn btn-primary btn-lg"
+                >
+                  Subscribe Now
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {!isAuthenticated && (
+            <div className="text-center mt-5">
+              <div className="card p-4 bg-light">
+                <h3>Register to Access More</h3>
+                <p className="mb-4">
+                  Create an account to access free e-books and subscribe for
+                  premium content.
+                </p>
+                <div>
+                  <Link to="/register" className="btn btn-primary btn-lg mr-3">
+                    Register
+                  </Link>
+                  <Link to="/login" className="btn btn-outline-primary btn-lg">
+                    Login
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -239,37 +388,6 @@ const EBook = () => {
                   ></iframe>
                 </div>
               </div>
-
-              {/* PDF Controls */}
-              {/* <div className="pdf-controls bg-light p-2 d-flex justify-content-center align-items-center">
-                <div className="btn-group me-3">
-                  <button className="btn btn-sm btn-outline-secondary" onClick={zoomOut} title="Zoom Out">
-                    <i className="fa fa-search-minus"></i>
-                  </button>
-                  <button className="btn btn-sm btn-outline-secondary" disabled>
-                    {zoomLevel}%
-                  </button>
-                  <button className="btn btn-sm btn-outline-secondary" onClick={zoomIn} title="Zoom In">
-                    <i className="fa fa-search-plus"></i>
-                  </button>
-                </div>
-                
-                <div className="btn-group">
-                  <button className="btn btn-sm btn-outline-primary" onClick={prevPage} disabled={currentPage === 1} title="Previous Page">
-                    <i className="fa fa-chevron-left"></i> Prev
-                  </button>
-                  <button className="btn btn-sm btn-outline-primary" disabled>
-                    Page {currentPage}
-                  </button>
-                  <button className="btn btn-sm btn-outline-primary" onClick={nextPage} title="Next Page">
-                    Next <i className="fa fa-chevron-right"></i>
-                  </button>
-                </div>
-                
-                <button className="btn btn-sm btn-secondary ms-3" onClick={handleClosePdf}>
-                  Close
-                </button>
-              </div> */}
 
               {/* Overlay for top area */}
               <div
