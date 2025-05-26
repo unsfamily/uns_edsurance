@@ -44,7 +44,7 @@ const Contact = () => {
     if (!validate()) return;
 
     try {
-      await axios.post("http://api.edsurance.in/api/contact", formData);
+      await axios.post("https://api.edsurance.in/api/contact", formData);
       setStatus("✅ Message sent successfully.");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (err) {
