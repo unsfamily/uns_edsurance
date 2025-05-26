@@ -13,6 +13,12 @@ const Networking = () => {
       navigate("/subscription");
     }
   }, [isAuthenticated, navigate]);
+  const handleClickHere = () => {
+    if (isAuthenticated) {
+      // If user is logged in, navigate to the corresponding resource
+      navigate("/subscription-form");
+    }
+  };
   return (
     <>
       <Header />
@@ -82,7 +88,13 @@ const Networking = () => {
         </div>
 
         <div className="text-center mt-4">
-          <button className="btn btn-primary">
+          <button
+            className="btn btn-primary"
+            onClick={(e) => {
+              e.preventDefault();
+              handleClickHere();
+            }}
+          >
             Enroll in UNS for this facility
           </button>
         </div>

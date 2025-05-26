@@ -9624,4 +9624,11 @@ h6,
 .nav-item.dropdown .dropdown-menu {
   margin-top: 0;
   transition: all 0.3s ease-in-out;
+}
+
+.training-img {
+  margin: 0 auto;
+}
+.training-img img {
+  width: 100%;
 }/*# sourceMappingURL=style.css.map */

@@ -1,8 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required.";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Invalid email address.";
+    }
+    if (!formData.subject.trim()) newErrors.subject = "Subject is required.";
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required.";
+    } else if (formData.message.length < 10) {
+      newErrors.message = "Message must be at least 10 characters.";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("");
+
+    if (!validate()) return;
+
+    try {
+      await axios.post("http://api.edsurance.in/api/contact", formData);
+      setStatus("✅ Message sent successfully.");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      setStatus("❌ Failed to send message. Try again later.");
+    }
+  };
+
   return (
     <>
       <Header />
@@ -46,52 +95,87 @@ const Contact = () => {
 
             <div className="col-lg-7">
               <div className="section-title position-relative mb-4">
-                <h6 className="d-inline-block position-relative text-secondary text-uppercase pb-2">
+                <h6 className="d-inline-block text-secondary text-uppercase pb-2">
                   Need Help?
                 </h6>
                 <h1 className="display-4">Send Us A Message</h1>
               </div>
               <div className="contact-form">
-                <form>
+                <form onSubmit={handleSubmit} noValidate>
                   <div className="row">
                     <div className="col-6 form-group">
                       <input
                         type="text"
-                        className="form-control border-top-0 border-right-0 border-left-0 p-0"
+                        name="name"
+                        className={`form-control border-top-0 border-right-0 border-left-0 p-0 ${
+                          errors.name ? "is-invalid" : ""
+                        }`}
                         placeholder="Your Name"
-                        required
+                        value={formData.name}
+                        onChange={handleChange}
                       />
+                      {errors.name && (
+                        <div className="invalid-feedback">{errors.name}</div>
+                      )}
                     </div>
                     <div className="col-6 form-group">
                       <input
                         type="email"
-                        className="form-control border-top-0 border-right-0 border-left-0 p-0"
+                        name="email"
+                        className={`form-control border-top-0 border-right-0 border-left-0 p-0 ${
+                          errors.email ? "is-invalid" : ""
+                        }`}
                         placeholder="Your Email"
-                        required
+                        value={formData.email}
+                        onChange={handleChange}
                       />
+                      {errors.email && (
+                        <div className="invalid-feedback">{errors.email}</div>
+                      )}
                     </div>
                   </div>
+
                   <div className="form-group">
                     <input
                       type="text"
-                      className="form-control border-top-0 border-right-0 border-left-0 p-0"
+                      name="subject"
+                      className={`form-control border-top-0 border-right-0 border-left-0 p-0 ${
+                        errors.subject ? "is-invalid" : ""
+                      }`}
                       placeholder="Subject"
-                      required
+                      value={formData.subject}
+                      onChange={handleChange}
                     />
+                    {errors.subject && (
+                      <div className="invalid-feedback">{errors.subject}</div>
+                    )}
                   </div>
+
                   <div className="form-group">
                     <textarea
-                      className="form-control border-top-0 border-right-0 border-left-0 p-0"
+                      name="message"
                       rows="5"
+                      className={`form-control border-top-0 border-right-0 border-left-0 p-0 ${
+                        errors.message ? "is-invalid" : ""
+                      }`}
                       placeholder="Message"
-                      required
+                      value={formData.message}
+                      onChange={handleChange}
                     ></textarea>
+                    {errors.message && (
+                      <div className="invalid-feedback">{errors.message}</div>
+                    )}
                   </div>
+
                   <div>
                     <button className="btn btn-primary py-3 px-5" type="submit">
                       Send Message
                     </button>
                   </div>
+
+                  {status && (
+                    <div className="alert alert-info mt-3 mb-0">{status}</div>
+                  )}
                 </form>
               </div>
             </div>
