@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "http://18.207.188.98:5000/api"; // Change this when deployed
+const API_BASE = "https://api.edsurance.in/api"; // Change this when deployed
 
 const api = axios.create({
   baseURL: API_BASE,

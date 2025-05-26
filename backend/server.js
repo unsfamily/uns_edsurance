@@ -11,7 +11,7 @@ const app = express();
 // Simple CORS configuration - no credentials
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://school.edsurance.in",
   })
 );
 
@@ -33,6 +33,7 @@ app.get("/basic-test", (req, res) => {
 // Register auth routes under /api/auth with logging
 console.log("About to mount auth routes at /api/auth");
 app.use("/api/auth/user", authRoutes);
+app.use("/api/contact", require("./routes/contact")); // 👈 Add this
 console.log("Auth routes mounted", Object.keys(authRoutes));
 
 // Test root route

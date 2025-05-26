@@ -37,7 +37,7 @@ function SubscriptionForm() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5002/api/auth/user/subscribe",
+        "https://api.edsurance.in/api/auth/user/subscribe",
         { ...form, userId: currentUser.id },
         {
           headers: {

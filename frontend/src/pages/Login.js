@@ -63,7 +63,7 @@ const Login = () => {
       setIsLoading(true);
       setApiError("");
 
-      const loginEndpoint = "http://localhost:5002/api/auth/user/login";
+      const loginEndpoint = "https://api.edsurance.in/api/auth/user/login";
 
       try {
         const response = await axios.post(loginEndpoint, {

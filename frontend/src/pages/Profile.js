@@ -10,7 +10,7 @@ function Profile() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5002/api/auth/user/me", {
+      .get("https://api.edsurance.in/api/auth/user/me", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

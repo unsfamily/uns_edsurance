@@ -162,7 +162,7 @@ router.post("/forgot-password", (req, res) => {
     expiresIn: "15m",
   });
 
-  const resetLink = `http://localhost:3000/reset-password/${token}`;
+  const resetLink = `https://school.edsurance.in/reset-password/${token}`;
   db.query(
     "UPDATE users SET reset_token = ?, reset_expires = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE email = ?",
     [token, email]
