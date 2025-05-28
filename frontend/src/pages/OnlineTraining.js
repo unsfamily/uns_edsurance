@@ -4,6 +4,11 @@ import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import OnlineTrainingImg from "../assets/images/onlinetraining.jpeg";
+import OnlineTraining03 from "../assets/images/online_03.png";
+import OnlineTraining04 from "../assets/images/online_04.png";
+import OnlineTraining05 from "../assets/images/online_05.png";
+import OnlineTraining06 from "../assets/images/online_06.png";
+import OnlineTraining07 from "../assets/images/online_07.png";
 
 const OnlineTraining = () => {
   const { isAuthenticated, currentUser, hasSubscription } = useAuth();
@@ -35,6 +40,13 @@ const OnlineTraining = () => {
                 Join live sessions with educators and peers. Check the details
                 below:
               </p> */}
+              <div className="col-md-6 text-center training-img">
+                <img src={OnlineTraining03} alt="Online Training" />
+                <img src={OnlineTraining04} alt="Online Training" />
+                <img src={OnlineTraining05} alt="Online Training" />
+                <img src={OnlineTraining06} alt="Online Training" />
+                <img src={OnlineTraining07} alt="Online Training" />
+              </div>
               <div className="col-md-6 text-center training-img">
                 <img src={OnlineTrainingImg} alt="Online Training" />
               </div>

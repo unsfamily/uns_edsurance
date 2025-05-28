@@ -24,6 +24,8 @@ import Industry from "./pages/Industry";
 import DigitalVideos from "./pages/DigitalVideos";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndCondition from "./pages/TermsAndCondition";
 
 function App() {
   return (
@@ -59,6 +61,8 @@ function App() {
 
           <Route path="/profile" element={<Profile />} />
           <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/termsandconditions" element={<TermsAndCondition />} />
           {/* Add more routes as needed */}
         </Routes>
       </AuthProvider>
