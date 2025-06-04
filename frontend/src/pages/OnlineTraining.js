@@ -15,11 +15,11 @@ const OnlineTraining = () => {
   const { isAuthenticated, currentUser, hasSubscription } = useAuth();
   const navigate = useNavigate();
   // Redirect to login if not authenticated
-  // useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate("/subscription");
-  //   }
-  // }, [isAuthenticated, navigate]);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/subscription");
+    }
+  }, [isAuthenticated, navigate]);
   const handleClickHere = () => {
     if (isAuthenticated) {
       // If user is logged in, navigate to the corresponding resource

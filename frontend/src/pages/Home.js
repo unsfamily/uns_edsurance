@@ -62,7 +62,7 @@ const Home = () => {
       }
     } else {
       // If user is not logged in, navigate to subscription page
-      navigate("/online-training");
+      navigate("/subscription");
     }
   };
 
