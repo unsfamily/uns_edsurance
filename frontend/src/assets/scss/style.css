@@ -9311,6 +9311,36 @@ h6,
   flex-shrink: 0;
 }
 
+.wrap-box {
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(24rem, 2fr));
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.wrap-box img {
+  margin-bottom: 30px;
+  border: 2px solid #11278b;
+}
+
+.bod-box {
+  background: rgba(252, 252, 252, 0.6);
+  border: 2px solid rgba(204, 204, 204, 0.1294117647);
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+}
+.bod-box:hover {
+  background: #e9efff;
+}
+.bod-box a {
+  padding: 10px;
+  background: #17a2b8;
+  color: #fff;
+}
+.bod-box p {
+  color: #0079ff;
+}
+
 .back-to-top {
   position: fixed;
   display: none;

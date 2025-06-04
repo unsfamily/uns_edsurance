@@ -93,7 +93,34 @@ height:200px;
     justify-content: center;
     flex-shrink: 0;
 }
-
+.wrap-box{
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(24rem, 2fr));
+    column-gap: 20px;
+    img{
+        margin-bottom: 30px;
+        border:2px solid #11278b;
+        // border-radius: 10px;
+    }
+}
+.bod-box{
+    background: #fcfcfc99;
+    border: 2px solid #cccccc21;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    &:hover{
+        background: #e9efff;
+    }
+    a{
+        padding: 10px;
+        background: #17a2b8;
+        color: #fff;
+    }
+    p{
+        color:#0079ff;
+    }
+}
 .back-to-top {
     position: fixed;
     display: none;

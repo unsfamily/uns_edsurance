@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import OfflineTrainingImg from "../assets/images/offlinetraining.jpeg";
+import OfflineTrainingImg from "../assets/images/offline_01.png";
 
 const OfflineTraining = () => {
   const { isAuthenticated, currentUser, hasSubscription } = useAuth();

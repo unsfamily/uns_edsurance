@@ -20,6 +20,7 @@ import award from "../assets/images/award.png";
 import money from "../assets/images/money.png";
 import material from "../assets/images/material.png";
 
+
 const Home = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const Home = () => {
       }
     } else {
       // If user is not logged in, navigate to subscription page
-      navigate("/subscription");
+      navigate("/online-training");
     }
   };
 
